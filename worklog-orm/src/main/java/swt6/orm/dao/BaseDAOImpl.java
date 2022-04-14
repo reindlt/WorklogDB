@@ -1,16 +1,18 @@
 package swt6.orm.dao;
 
 import swt6.orm.dao.interfaces.BaseDAO;
+import swt6.orm.domain.UserStory;
 import swt6.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public abstract class BaseDAOImpl<T> implements BaseDAO<T> {
     @Override
     public void insert(T entity) {
         try {
             EntityManager em = JpaUtil.getTransactedEntityManager();
-            em.persist(entity);
+            em.merge(entity);
             JpaUtil.commit();
         } catch (Exception e) {
             JpaUtil.rollback();
@@ -54,5 +56,19 @@ public abstract class BaseDAOImpl<T> implements BaseDAO<T> {
             JpaUtil.rollback();
             throw e;
         }
+    }
+
+    @Override
+    public List<Object[]> getFromQuery(String query) {
+        List<Object[]> results;
+        try {
+            EntityManager em = JpaUtil.getTransactedEntityManager();
+            results = em.createQuery(query, Object[].class).getResultList();
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+        return results;
     }
 }

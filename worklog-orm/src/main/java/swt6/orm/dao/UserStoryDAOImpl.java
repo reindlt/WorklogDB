@@ -7,6 +7,7 @@ import swt6.orm.domain.UserStory;
 import swt6.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class UserStoryDAOImpl extends BaseDAOImpl<UserStory> implements UserStoryDAO {
     @Override
@@ -43,4 +44,23 @@ public class UserStoryDAOImpl extends BaseDAOImpl<UserStory> implements UserStor
 
         return story;
     }
+
+//    @Override
+//    public List<UserStory> getStoryPointsPerUserStory() {
+//        List<UserStory> results;
+//        try {
+//            EntityManager em = JpaUtil.getTransactedEntityManager();
+//            results = em.createQuery(
+//                    "select t.userStory, count(t.points)" +
+//                            "from Task t " +
+//                            "group by t.userStory",
+//                    UserStory.class
+//            ).getResultList();
+//            JpaUtil.commit();
+//        } catch (Exception e) {
+//            JpaUtil.rollback();
+//            throw e;
+//        }
+//        return results;
+//    }
 }
