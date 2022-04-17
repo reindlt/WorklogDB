@@ -19,10 +19,16 @@ public class UserStory implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Backlog backlog;
 
-    @OneToMany(mappedBy = "userStory", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "userStory", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Task> tasks = new HashSet<>();
 
     public UserStory() {
+    }
+
+    public UserStory(String title, String description, int storyPoints) {
+        this.title = title;
+        this.description = description;
+        this.storyPoints = storyPoints;
     }
 
     public void setId(Long id) {
@@ -82,11 +88,22 @@ public class UserStory implements Serializable {
     }
 
     public void addTask(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("NULL task");
+        }
         if (task.getUserStory() != null) {
             task.getUserStory().getTasks().remove(task);
         }
         this.tasks.add(task);
         task.setUserStory(this);
+    }
+
+    public void removeTask(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("NULL task");
+        }
+        task.setUserStory(null);
+        this.getTasks().remove(task);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Employee implements Serializable {
     private String lastName;
     private LocalDate dateOfBirth;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
 
     @OneToMany(mappedBy = "employee",
@@ -44,20 +44,6 @@ public class Employee implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public void detach() {
-        for (LogbookEntry entry : new ArrayList<>(getLogbookEntries())) {
-            this.logbookEntries.remove(entry);
-        }
-    }
-
-    public void addLogbookEntry(LogbookEntry entry) {
-        if (entry.getEmployee() != null) {
-            entry.getEmployee().getLogbookEntries().remove(entry);
-        }
-        this.logbookEntries.add(entry);
-        entry.setEmployee(this);
     }
 
     public Set<LogbookEntry> getLogbookEntries() {
@@ -117,34 +103,41 @@ public class Employee implements Serializable {
     }
 
     public void addProject(Project project) {
+        if (project == null) {
+            throw new IllegalArgumentException("NULL project");
+        }
         project.getMembers().add(this);
         this.projects.add(project);
     }
 
     public void removeProject(Project project) {
-        if (project.getMembers() != null) {
-            project.getMembers().remove(this);
+        if (project == null) {
+            throw new IllegalArgumentException("NULL project");
         }
+        project.getMembers().remove(this);
         this.projects.remove(project);
     }
 
+    public void addLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalArgumentException("NULL entry");
+        }
+        if (entry.getEmployee() != null) {
+            entry.getEmployee().getLogbookEntries().remove(entry);
+        }
+        this.logbookEntries.add(entry);
+        entry.setEmployee(this);
+    }
+
+    public void removeLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalArgumentException("NULL entry");
+        }
+        entry.setEmployee(null);
+        this.getLogbookEntries().remove(entry);
+    }
+
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        StringBuffer sb = new StringBuffer();
-        sb.append(id + ": " + lastName + ", " + firstName + " (" + dateOfBirth.format(formatter) + ")");
-
-        if (this.logbookEntries.size() > 0) {
-            sb.append("\n  ");
-            for(LogbookEntry e : this.logbookEntries){
-             sb.append(e.toString());
-             sb.append("\n  ");
-            }
-        }
-
-        if (address != null) {
-            sb.append(", " + address);
-        }
-
-        return sb.toString();
+        return firstName + " " + lastName;
     }
 }

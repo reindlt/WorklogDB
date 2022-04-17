@@ -17,8 +17,8 @@
 
 			<property name="hibernate.dialect"
 					  value="org.hibernate.dialect.DerbyTenSevenDialect" />
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
@@ -30,13 +30,13 @@
 			<property name="hibernate.archive.autodetection" value="class" />
 
 			<property name="javax.persistence.jdbc.driver"
-					  value="org.apache.derby.jdbc.ClientDriver" />
+					  value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url"
-					  value="jdbc:derby://localhost/memory:WorkLogDb;create=true" />
+					  value="jdbc:derby:memory:WorkLogDb;create=true" />
 			<property name="hibernate.dialect"
 					  value="org.hibernate.dialect.DerbyTenSevenDialect" />
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>

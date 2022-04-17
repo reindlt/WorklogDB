@@ -5,5 +5,5 @@ import swt6.orm.domain.Issue;
 import java.util.List;
 
 public interface IssueDAO extends BaseDAO<Issue> {
-    List<Issue> getLeastNBuggyReleases(int n);
+    //List<BuggyReleaseDto> getLeastNBuggyReleases(int n);
 }

@@ -18,7 +18,7 @@ public class Project implements Serializable {
     private Long id;
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Employee manager;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -93,6 +93,14 @@ public class Project implements Serializable {
         this.members.add(empl);
     }
 
+    public void removeMember(Employee empl) {
+        if (empl == null) {
+            throw new IllegalArgumentException("NULL employee");
+        }
+        empl.getProjects().remove(this);
+        this.members.remove(empl);
+    }
+
     public void addSprint(Sprint sprint) {
         if (sprint == null) {
             throw new IllegalArgumentException("NULL sprint");
@@ -105,10 +113,8 @@ public class Project implements Serializable {
     }
 
     public void removeSprint(Sprint sprint) {
-        if (this.sprints.contains(sprint)) {
-            this.sprints.remove(sprint);
-            sprint.setProject(this);
-        }
+        this.sprints.remove(sprint);
+        sprint.setProject(null);
     }
 
     public String toString() {

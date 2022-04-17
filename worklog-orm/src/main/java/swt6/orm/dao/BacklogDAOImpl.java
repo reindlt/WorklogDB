@@ -24,4 +24,19 @@ public class BacklogDAOImpl extends BaseDAOImpl<Backlog> implements BacklogDAO {
 
         return backlog;
     }
+
+    public Backlog removeUserStory(Backlog backlog, UserStory userStory) {
+        try {
+            EntityManager em = JpaUtil.getTransactedEntityManager();
+            backlog = em.merge(backlog);
+            backlog.getUserStories().remove(userStory);
+            userStory.setBacklog(null);
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        return backlog;
+    }
 }

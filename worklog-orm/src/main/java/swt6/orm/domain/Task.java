@@ -17,10 +17,16 @@ public abstract class Task implements Serializable {
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private UserStory userStory;
 
     public Task() {
+    }
+
+    public Task(String title, String description, int points) {
+        this.title = title;
+        this.description = description;
+        this.points = points;
     }
 
     public void setId(Long id) {
@@ -80,5 +86,27 @@ public abstract class Task implements Serializable {
         }
         this.logbookEntries.add(logbookEntry);
         logbookEntry.setTask(this);
+    }
+
+    public void removeLogbookEntry(LogbookEntry logBookEntry) {
+        if (logBookEntry == null) {
+            throw new IllegalArgumentException("NULL logBookEntry");
+        }
+        logBookEntry.setTask(null);
+        this.logbookEntries.remove(logBookEntry);
+    }
+
+    public void attachUserStory(UserStory userStory) {
+        if (userStory == null) {
+            throw new IllegalArgumentException("NULL userStory");
+        }
+        userStory.addTask(this);
+    }
+
+    public void detachUserStory() {
+        if (this.userStory != null) {
+            this.userStory.getTasks().remove(this);
+            this.setUserStory(null);
+        }
     }
 }

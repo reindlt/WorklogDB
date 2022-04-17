@@ -6,6 +6,7 @@ public interface BaseDAO<T> {
     void insert(T entity);
     T update(T entity);
     void delete(T entity);
-    T get(Class<T> clazz, long id);
-    List<Object[]> getFromQuery(String query);
+    T getById(Class<T> clazz, long id);
+    List<T> getAll(Class<T> clazz);
+    //List<Object[]> getFromQuery(String query);
 }

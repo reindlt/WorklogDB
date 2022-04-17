@@ -1,40 +1,38 @@
-package swt6.orm.tests;
+package swt6.orm.dao;
 
 import org.junit.*;
-import swt6.orm.dao.SprintDAOImpl;
+import swt6.orm.dao.base.DataSourceDBUnitTest;
 import swt6.orm.dao.interfaces.SprintDAO;
 import swt6.orm.domain.Sprint;
 import swt6.orm.domain.UserStory;
-import swt6.util.JpaUtil;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-public class SprintTests {
+public class SprintDAOTests extends DataSourceDBUnitTest {
 
     SprintDAO dao = new SprintDAOImpl();
     Sprint testSprint = new Sprint();
 
-    @Before
-    public void init(){
-        JpaUtil.getTransactedEntityManager();
-    }
-
-    @After
-    public void cleanup(){
-        JpaUtil.closeEntityManagerFactory();
-    }
+//    @Before
+//    public void init(){
+//        JpaUtil.getTransactedTestEntityManager();
+//    }
+//
+//    @After
+//    public void cleanup(){
+//        JpaUtil.closeEntityManagerFactory();
+//    }
 
     @Test
-    public void insertSprintTest() {
+    public void testInsert() {
         dao.insert(testSprint);
     }
 
     @Test
-    public void getSprintTest() {
-        dao.insert(testSprint);
-        Assert.assertEquals(testSprint, dao.get(Sprint.class, 1));
+    public void testGetById() {
+//        dao.insert(testSprint);
+//        Assert.assertEquals(testSprint, dao.getById(Sprint.class, 1));
+        var Sprint = dao.getById(Sprint.class, 1);
     }
 
     @Test
@@ -49,7 +47,7 @@ public class SprintTests {
     public void deleteSprintTest(){
         dao.insert(testSprint);
         dao.delete(testSprint);
-        Assert.assertEquals(null, dao.get(Sprint.class, 1));
+        Assert.assertEquals(null, dao.getById(Sprint.class, 1));
     }
 
     @Test
@@ -58,7 +56,6 @@ public class SprintTests {
         story1.setTitle("story1");
         UserStory story2 = new UserStory();
         story2.setTitle("story2");
-        //UserStory[] stories = { story1, story2};
         testSprint.addUserStory(story1);
         testSprint.addUserStory(story2);
         dao.insert(testSprint);

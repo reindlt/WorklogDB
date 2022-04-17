@@ -24,6 +24,11 @@ public class Sprint implements Serializable {
     public Sprint() {
     }
 
+    public Sprint(LocalDate startDate, LocalDate endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -92,10 +97,6 @@ public class Sprint implements Serializable {
 
     @Override
     public String toString() {
-        return "Sprint{" +
-                "id=" + id +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+        return "Sprint " + id + " (" + startDate + " - " + endDate + ")";
     }
 }

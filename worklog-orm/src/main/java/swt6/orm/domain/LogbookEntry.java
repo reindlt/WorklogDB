@@ -39,16 +39,15 @@ public class LogbookEntry implements Serializable {
     }
 
 	public void attachEmployee(Employee employee) {
-        // remove existing employee
+        if (employee == null) {
+            throw new IllegalArgumentException("NULL employee");
+        }
         if (this.employee != null) {
             this.employee.getLogbookEntries().remove(this);
         }
-
-        // connect new employee
         if (employee != null) {
             employee.getLogbookEntries().add(this);
         }
-
         this.employee = employee;
     }
   

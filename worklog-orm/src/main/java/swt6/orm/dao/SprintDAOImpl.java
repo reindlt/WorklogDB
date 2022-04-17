@@ -7,6 +7,7 @@ import swt6.orm.domain.UserStory;
 import swt6.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class SprintDAOImpl extends BaseDAOImpl<Sprint> implements SprintDAO {
     @Override
@@ -75,4 +76,44 @@ public class SprintDAOImpl extends BaseDAOImpl<Sprint> implements SprintDAO {
 
         return sprint;
     }
+
+//    @Override
+//    public List<StoryPointsPerSprintDto> getStoryPointsPerSprint() {
+//        List<StoryPointsPerSprintDto> results;
+//        try {
+//            EntityManager em = JpaUtil.getTransactedEntityManager();
+//            results = em.createQuery(
+//                    "select NEW swt6.orm.dao.dtos.StoryPointsPerSprintDto(us.sprint, sum(us.storyPoints)) " +
+//                            "from UserStory us " +
+//                            "group by us.sprint.id",
+//                    StoryPointsPerSprintDto.class
+//            ).getResultList();
+//            JpaUtil.commit();
+//        } catch (Exception e) {
+//            JpaUtil.rollback();
+//            throw e;
+//        }
+//        return results;
+//    }
+
+    @Override
+    public List<Sprint> getActiveSprints() {
+        List<Sprint> results;
+        try {
+            EntityManager em = JpaUtil.getTransactedEntityManager();
+            results = em.createQuery(
+                    "select s " +
+                            "from Sprint s " +
+                            "where startDate < current_date " +
+                            "and endDate > current_date",
+                    Sprint.class
+            ).getResultList();
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+        return results;
+    }
+
 }
