@@ -8,6 +8,11 @@ import swt6.util.JpaUtil;
 import javax.persistence.EntityManager;
 
 public class BacklogDAOImpl extends BaseDAOImpl<Backlog> implements BacklogDAO {
+
+    public BacklogDAOImpl() {
+        super(Backlog.class);
+    }
+
     @Override
     public Backlog addUserStories(Backlog backlog, UserStory... userStories) {
         try {

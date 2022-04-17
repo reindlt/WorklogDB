@@ -20,14 +20,7 @@ public class Statistics {
     private final LogbookEntryDAO logbookEntryDAO = new LogbookEntryDAOImpl();
 
     public void printLeast5BuggyReleases() {
-//        System.out.println(BUGGY_RELEASES + " most buggy releases are:");
-//        var result = issueDAO.getLeastNBuggyReleases(BUGGY_RELEASES);
-//        for (var item : result) {
-//            System.out.println(item);
-//        }
-
-//        Variante 2
-        var issues = issueDAO.getAll(Issue.class);
+        var issues = issueDAO.getAll();
         Map<String, Integer> releaseWithBugs = new HashMap<>();
 
         for (var issue : issues) {
@@ -40,28 +33,16 @@ public class Statistics {
         }
 
         var list = new ArrayList<>(releaseWithBugs.entrySet());
-        list.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+        list.sort(Map.Entry.<String, Integer>comparingByValue());
 
-        System.out.println(BUGGY_RELEASES + " most buggy releases are:");
+        System.out.println(BUGGY_RELEASES + " least buggy releases are:");
         for (var i = 0; i < list.size() && i < BUGGY_RELEASES; i++) {
             System.out.println("--> " + list.get(i).getKey() + "(" + list.get(i).getValue() + ")");
         }
-
-//        Variante 1
-//        var items = issueDao.getFromQuery(
-//                "select i.releaseVersion, count(i.id) as bugs " +
-//                        "from Issue i " +
-//                        " group by i.releaseVersion " +
-//                        " order by bugs desc");
-//
-//        System.out.println(BUGGY_RELEASES + " most buggy releases are:");
-//        for (var i = 0; i < items.size() && i < BUGGY_RELEASES; i++) {
-//            System.out.println("--> " + (String) items.get(i)[0] + "(" + (long) items.get(i)[1] + ")");
-//        }
     }
 
     public void printEstimationPointRatio() {
-        var sprints = sprintDAO.getAll(Sprint.class);
+        var sprints = sprintDAO.getAll();
 
         long numOfSprints = 0;
         long sumStoryPoints = 0;
@@ -90,39 +71,9 @@ public class Statistics {
         }
 
         System.out.println("Estimation point ratio is: " + average / numOfSprints);
-
-//        var pointsPerUserStory = userStoryDAO.getPointsPerUserStory();
-//
-//        for (var sprint : storyPointsPerSprint) {
-//            for (var task : sprint.getSprint().getUserStories()) {
-//                System.out.println();
-//            }
-//        }
-
-//        var items = issueDao.getFromQuery(
-//                "select sum(t.points), sum(us.storyPoints) " +
-//                        "from Task t " +
-//                        "join t.userStory us " +
-//                        "group by us.sprintId");
-//
-//        double sum = 0;
-//        for (var i = 0; i < items.size(); i++) {
-//            double taskPoints = (double)(long) items.get(i)[0];
-//            double storyPoints = (double)(int) items.get(i)[1];
-//            sum += taskPoints / storyPoints ;
-//        }
-//        System.out.println("Estimation point ratio is: " + sum / items.size());
     }
 
     public void printFeatureists() {
-//        var items = issueDao.getFromQuery(
-//                "select l.employee.firstName, max(l.endTime), t.dueDate " +
-//                        "from LogbookEntry l " +
-//                        "join l.employee e " +
-//                        "join l.task t " +
-//                        "where TYPE(t) = Feature " +
-//                        "group by l.task, t.dueDate ");
-
         HashSet<Employee> featureists = new HashSet<>();
         var features = featureDAO.getWithStatus(Status.done);
 
@@ -134,7 +85,6 @@ public class Statistics {
                     featureists.add(logbookEntry.getEmployee());
                 }
             } catch (NoResultException e) {
-
             }
         }
 

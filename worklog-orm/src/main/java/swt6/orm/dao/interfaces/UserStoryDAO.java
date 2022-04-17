@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface UserStoryDAO extends BaseDAO<UserStory> {
     UserStory addTasks(UserStory story, Task... tasks);
-    UserStory removeTasks(UserStory story);
-//    List<PointsPerUserStoryDto> getPointsPerUserStory();
+
+    UserStory removeTask(UserStory story, Task task);
+
     List<UserStory> getForSprint(Sprint sprint);
 }

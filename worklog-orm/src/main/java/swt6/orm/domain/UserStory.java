@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@SequenceGenerator(name = "userStorySequence", initialValue = 1000, allocationSize = 100)
 public class UserStory implements Serializable {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userStorySequence")
     private Long id;
     private String title;
     private String description;

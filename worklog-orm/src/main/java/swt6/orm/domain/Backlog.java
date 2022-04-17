@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity public class Backlog implements Serializable {
-    @Id @GeneratedValue
+@Entity
+@SequenceGenerator(name = "backlogSequence", initialValue = 1000, allocationSize = 100)
+public class Backlog implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "backlogSequence")
     private Long id;
     private String vision;
     private String description;
@@ -72,6 +75,6 @@ import java.util.Set;
 
     @Override
     public String toString() {
-        return description;
+        return "Backlog: " + description;
     }
-    }
+}

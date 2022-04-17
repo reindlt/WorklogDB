@@ -3,8 +3,10 @@ package swt6.orm.dao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import swt6.orm.dao.*;
-import swt6.orm.dao.interfaces.*;
+import swt6.orm.dao.interfaces.FeatureDAO;
+import swt6.orm.dao.interfaces.IssueDAO;
+import swt6.orm.dao.interfaces.LogbookEntryDAO;
+import swt6.orm.dao.interfaces.UserStoryDAO;
 import swt6.orm.domain.*;
 import swt6.statistic.Statistics;
 import swt6.util.JpaUtil;
@@ -15,17 +17,18 @@ import java.time.LocalDateTime;
 public class StatisticsTests {
 
     Statistics statistics = new Statistics();
-    private IssueDAO issueDao = new IssueDAOImpl();
-    private SprintDAO sprintDAO = new SprintDAOImpl();
-    private UserStoryDAO userStoryDAO = new UserStoryDAOImpl();
-    private LogbookEntryDAO logbookEntryDAO = new LogbookEntryDAOImpl();
-    private FeatureDAO featureDAO = new FeatureDAOImpl();
+    private final IssueDAO issueDao = new IssueDAOImpl();
+    private final UserStoryDAO userStoryDAO = new UserStoryDAOImpl();
+    private final LogbookEntryDAO logbookEntryDAO = new LogbookEntryDAOImpl();
+    private final FeatureDAO featureDAO = new FeatureDAOImpl();
 
     @Before
-    public void init(){ JpaUtil.getTransactedTestEntityManager(); }
+    public void init() {
+        JpaUtil.getTransactedTestEntityManager();
+    }
 
     @After
-    public void cleanup(){
+    public void cleanup() {
         JpaUtil.closeEntityManagerFactory();
     }
 

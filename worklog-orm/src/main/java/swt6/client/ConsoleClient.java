@@ -15,8 +15,6 @@ import swt6.util.JpaUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class ConsoleClient {
 
@@ -121,8 +119,6 @@ public class ConsoleClient {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            // TODO: HibernateUtil.closeSessionFactory();
         }
     }
 }

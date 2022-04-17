@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@SequenceGenerator(name = "taskSequence", initialValue = 1000, allocationSize = 100)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Task implements Serializable {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskSequence")
     private Long id;
     private String title;
     private String description;

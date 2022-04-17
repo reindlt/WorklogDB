@@ -10,6 +10,11 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 public class FeatureDAOImpl extends BaseDAOImpl<Feature> implements FeatureDAO {
+
+    public FeatureDAOImpl() {
+        super(Feature.class);
+    }
+
     @Override
     public List<Feature> getWithStatus(Status status) {
         List<Feature> results;

@@ -1,12 +1,9 @@
 package swt6.orm.domain;
 
-import org.hibernate.cfg.NotYetImplementedException;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
 
 @Entity
 public class Project implements Serializable {

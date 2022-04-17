@@ -47,4 +47,9 @@ public class Issue extends Task implements Serializable {
     public void setSeverity(Severity severity) {
         this.severity = severity;
     }
+
+    @Override
+    public String toString() {
+        return "Issue: " + this.getTitle() + "(" + this.getPoints() + ")";
+    }
 }

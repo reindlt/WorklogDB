@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@SequenceGenerator(name = "sprintSequence", initialValue = 1000, allocationSize = 100)
 public class Sprint implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sprintSequence")
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;

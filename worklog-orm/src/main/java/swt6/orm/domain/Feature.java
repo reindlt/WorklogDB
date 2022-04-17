@@ -37,4 +37,10 @@ public class Feature extends Task implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Feature: " + this.getTitle() + "(" + this.getPoints() + ")";
+    }
+
 }

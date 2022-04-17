@@ -1,64 +1,36 @@
 package swt6.orm.dao;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import swt6.orm.dao.base.DataSourceDBUnitTest;
 import swt6.orm.dao.interfaces.SprintDAO;
-import swt6.orm.domain.Sprint;
+import swt6.orm.dao.interfaces.UserStoryDAO;
 import swt6.orm.domain.UserStory;
-
-import java.time.LocalDate;
 
 public class SprintDAOTests extends DataSourceDBUnitTest {
 
-    SprintDAO dao = new SprintDAOImpl();
-    Sprint testSprint = new Sprint();
-
-//    @Before
-//    public void init(){
-//        JpaUtil.getTransactedTestEntityManager();
-//    }
-//
-//    @After
-//    public void cleanup(){
-//        JpaUtil.closeEntityManagerFactory();
-//    }
+    private final SprintDAO sprintDAO = new SprintDAOImpl();
+    private final UserStoryDAO userStoryDAO = new UserStoryDAOImpl();
 
     @Test
-    public void testInsert() {
-        dao.insert(testSprint);
+    public void testAddUserStories() {
+        var sprint = sprintDAO.getById(1);
+        var userStory = new UserStory("Titel", "Beschreibung", 10);
+        sprint = sprintDAO.addUserStories(sprint, userStory);
+        Assert.assertTrue(sprint.getUserStories().contains(userStory));
     }
 
     @Test
-    public void testGetById() {
-//        dao.insert(testSprint);
-//        Assert.assertEquals(testSprint, dao.getById(Sprint.class, 1));
-        var Sprint = dao.getById(Sprint.class, 1);
+    public void testRemoveUserStory() {
+        var sprint = sprintDAO.getById(1);
+        var userStory = userStoryDAO.getById(1);
+        sprint = sprintDAO.removeUserStory(sprint, userStory);
+        Assert.assertFalse(sprint.getUserStories().contains(userStory));
     }
 
     @Test
-    public void updateSprintTest() {
-        dao.insert(testSprint);
-        testSprint.setStartDate(LocalDate.now());
-        var updatedSprint = dao.update(testSprint);
-        Assert.assertEquals(testSprint.getStartDate(), updatedSprint.getStartDate());
+    public void testGetActiveSprints() {
+        var activeSprints = sprintDAO.getActiveSprints();
+        Assert.assertEquals(1, activeSprints.size());
     }
-
-    @Test
-    public void deleteSprintTest(){
-        dao.insert(testSprint);
-        dao.delete(testSprint);
-        Assert.assertEquals(null, dao.getById(Sprint.class, 1));
-    }
-
-    @Test
-    public void insertSprintWithSeveralUserStoriesTest() {
-        UserStory story1 = new UserStory();
-        story1.setTitle("story1");
-        UserStory story2 = new UserStory();
-        story2.setTitle("story2");
-        testSprint.addUserStory(story1);
-        testSprint.addUserStory(story2);
-        dao.insert(testSprint);
-    }
-
 }

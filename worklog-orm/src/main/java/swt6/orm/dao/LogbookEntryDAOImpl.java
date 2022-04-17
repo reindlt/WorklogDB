@@ -8,6 +8,11 @@ import swt6.util.JpaUtil;
 import javax.persistence.EntityManager;
 
 public class LogbookEntryDAOImpl extends BaseDAOImpl<LogbookEntry> implements LogbookEntryDAO {
+
+    public LogbookEntryDAOImpl() {
+        super(LogbookEntry.class);
+    }
+
     @Override
     public LogbookEntry getLatestForTask(Task task) {
         LogbookEntry result;

@@ -1,12 +1,9 @@
 package swt6.orm.domain;
 
-import org.hibernate.cfg.NotYetImplementedException;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 @Entity
 public class LogbookEntry implements Serializable {

@@ -1,11 +1,10 @@
 package swt6.orm.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
-import javax.persistence.*;
 
-//Version 2
-//@Embeddable
-//Version 3
 @Entity
 public class Address implements Serializable {
   
